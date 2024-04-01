@@ -1,3 +1,4 @@
+import AddToBag from "@/app/components/AddToBag";
 import ImageGallery from "@/app/components/ImageGallery";
 import { Button } from "@/app/components/ui/button";
 import { fullProduct } from "@/app/interface";
@@ -12,7 +13,8 @@ async function getData(slug: string) {
     name,
     description,
     "slug": slug.current,
-    "categoryName": category->name
+    "categoryName": category->name,
+    price_id
 } `;
 
   const data = await client.fetch(query);
@@ -30,7 +32,6 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
           <div className="md:py-8">
             <div className="mb-2 md:mb-3">
               <span className="mb-0.5 inline-block text-gray-500">
-                {" "}
                 {data.categoryName}
               </span>
               <h2 className="text-2xl font-bold text-gray-800 lg:text-3xl">
@@ -52,10 +53,10 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
             <div className="mb-4">
               <div className="flex items-end gap-2">
                 <span className="text-xl font-bold text-gray-800 md:text-2xl">
-                  ${data.price}
+                  NOK {data.price}
                 </span>
                 <span className="mb-0.5 text-red-500 line-through">
-                  ${data.price + 40}
+                  NOK {data.price + 400}
                 </span>
               </div>
               <span className="text-sm text-gray-500">
@@ -69,11 +70,19 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
             </div>
 
             <div className="flex gap-2.5">
-              <Button>Add To Cart</Button>
+              <AddToBag
+                currency="USD"
+                name={data.name}
+                description={data.description}
+                price={data.price}
+                image={data.images[0]}
+                key={data._id}
+                price_id={data.price_id}
+              />
               <Button variant={"secondary"}>Checkout Now</Button>
             </div>
 
-            <p className="mt-12 text-base text-gray-500 tracking-wide">
+            <p className="mt-12 text-base text-gray-500 tracking-wide ">
               {data.description}
             </p>
           </div>
