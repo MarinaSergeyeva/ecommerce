@@ -1,6 +1,6 @@
-import { client, urlFor } from "@/lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
+import { client, urlFor } from "../lib/sanity";
 
 async function getData() {
   const query = "*[_type == 'heroImage'][0]";
