@@ -1,4 +1,5 @@
 import AddToBag from "@/app/components/AddToBag";
+import CheckoutNow from "@/app/components/CheckoutNow";
 import ImageGallery from "@/app/components/ImageGallery";
 import { Button } from "@/app/components/ui/button";
 import { fullProduct } from "@/app/interface";
@@ -21,6 +22,9 @@ async function getData(slug: string) {
 
   return data;
 }
+
+// Opt out of caching for all data requests in the route segment
+export const dynamic = "force-dynamic";
 
 const ProductPage = async ({ params }: { params: { slug: string } }) => {
   const data: fullProduct = await getData(params.slug);
@@ -79,7 +83,15 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
                 key={data._id}
                 price_id={data.price_id}
               />
-              <Button variant={"secondary"}>Checkout Now</Button>
+              <CheckoutNow
+                currency="USD"
+                name={data.name}
+                description={data.description}
+                price={data.price}
+                image={data.images[0]}
+                key={data._id}
+                price_id={data.price_id}
+              />
             </div>
 
             <p className="mt-12 text-base text-gray-500 tracking-wide ">
