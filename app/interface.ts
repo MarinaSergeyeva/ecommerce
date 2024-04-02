@@ -26,3 +26,9 @@ export interface SimplifiedEmployee {
   imageUrl: string;
   departmentName: string;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+}
