@@ -6,8 +6,15 @@ import { Button } from "./ui/button";
 import { ChevronRight, ShoppingBasket } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { useState } from "react";
+import Dropdown from "./Dropdown";
 
-const links = [
+export interface MenuItem {
+  name: string;
+  href: string;
+  subLinks?: MenuItem[];
+}
+
+const links: MenuItem[] = [
   { name: "Home", href: "/" },
   {
     name: "Products",
@@ -44,40 +51,21 @@ export default function Navbar() {
           <ul className="flex gap-6">
             {links.map((link, index) => (
               <li key={index}>
-                {pathname === link.href ? (
-                  <Link
-                    className="text-lg font-semibold text-primary flex items-center gap-2 relative"
-                    href={link.href}
-                    onMouseEnter={handleInteraction}
-                    onMouseLeave={handleInteraction}
-                    onFocus={handleInteraction}>
-                    {link.name}
-                    {link?.subLinks && (
-                      <span className="transform transition-transform duration-1000">
-                        <ChevronRight
-                          className={isHovered ? "rotate-90" : "rotate-0"}
-                        />
-                      </span>
-                    )}
-                  </Link>
+                {link?.subLinks ? (
+                  <Dropdown item={link} />
                 ) : (
                   <Link
-                    className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary flex items-center gap-2"
+                    className={`text-lg font-semibold ${
+                      pathname === link.href ? "text-primary" : "text-gray-600"
+                    } transition duration-100 hover:text-primary flex items-center gap-2`}
                     href={link.href}
                     onMouseEnter={handleInteraction}
                     onMouseLeave={handleInteraction}
                     onFocus={handleInteraction}>
                     {link.name}
-                    {link?.subLinks && (
-                      <span className="transform transition-transform duration-1000">
-                        <ChevronRight
-                          className={isHovered ? "rotate-90" : "rotate-0"}
-                        />
-                      </span>
-                    )}
                   </Link>
                 )}
-                {link?.subLinks && isHovered && (
+                {/* {link?.subLinks && isHovered && (
                   <ul className="flex flex-col gap-4 absolute t-0 mt-2 ml-2 p-4 bg-white shadow-lg rounded-md">
                     {link.subLinks.map((subLink, subIndex) => (
                       <li key={subIndex}>
@@ -97,7 +85,7 @@ export default function Navbar() {
                       </li>
                     ))}
                   </ul>
-                )}
+                )} */}
               </li>
             ))}
           </ul>
