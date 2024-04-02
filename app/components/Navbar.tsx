@@ -65,31 +65,11 @@ export default function Navbar() {
                     {link.name}
                   </Link>
                 )}
-                {/* {link?.subLinks && isHovered && (
-                  <ul className="flex flex-col gap-4 absolute t-0 mt-2 ml-2 p-4 bg-white shadow-lg rounded-md">
-                    {link.subLinks.map((subLink, subIndex) => (
-                      <li key={subIndex}>
-                        {pathname === subLink.href ? (
-                          <Link
-                            href={subLink.href}
-                            className="text-lg font-semibold text-primary">
-                            {subLink.name}
-                          </Link>
-                        ) : (
-                          <Link
-                            href={subLink.href}
-                            className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary">
-                            {subLink.name}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )} */}
               </li>
             ))}
           </ul>
         </nav>
+
         <div className="flex divide-x border-r sm:border-l">
           <Button
             variant={"outline"}

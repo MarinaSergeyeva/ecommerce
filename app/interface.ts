@@ -17,3 +17,12 @@ export interface fullProduct {
   categoryName: string;
   description: string;
 }
+
+export interface SimplifiedEmployee {
+  _id: string;
+  name: string;
+  slug: string;
+  position: string;
+  imageUrl: string;
+  departmentName: string;
+}
