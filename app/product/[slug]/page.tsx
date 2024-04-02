@@ -89,7 +89,7 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
                 description={data.description}
                 price={data.price}
                 image={data.images[0]}
-                key={data._id}
+                key={data._id + 1}
                 price_id={data.price_id}
               />
             </div>

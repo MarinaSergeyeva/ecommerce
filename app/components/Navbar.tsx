@@ -3,19 +3,33 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { ShoppingBasket } from "lucide-react";
+import { ChevronRight, ShoppingBasket } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
+import { useState } from "react";
 
 const links = [
   { name: "Home", href: "/" },
-  { name: "Men", href: "/Men" },
-  { name: "Women", href: "/Women" },
-  { name: "Teens", href: "/Teens" },
+  {
+    name: "Products",
+    href: "/products",
+    subLinks: [
+      { name: "Men", href: "/products/Men" },
+      { name: "Women", href: "/products/Women" },
+      { name: "Teens", href: "/products/Teens" },
+    ],
+  },
+  { name: "Our Team", href: "/team" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const { handleCartClick } = useShoppingCart();
+
+  const [isHovered, setIsHovered] = useState(false);
+  const handleInteraction = (event: any) => {
+    setIsHovered(event.type === "mouseenter" || event.type === "focus");
+  };
+
   return (
     <header className="mb-8 border-b">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
@@ -27,23 +41,66 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden gap-12 lg:flex 2xl:ml-16">
-          {links.map((link, index) => (
-            <div key={index}>
-              {pathname === link.href ? (
-                <Link
-                  className="text-lg font-semibold text-primary"
-                  href={link.href}>
-                  {link.name}
-                </Link>
-              ) : (
-                <Link
-                  href={link.href}
-                  className="text-lg font-semibold text-gray-600 trarnsition duration-100 hover:text-primary">
-                  {link.name}
-                </Link>
-              )}
-            </div>
-          ))}
+          <ul className="flex gap-6">
+            {links.map((link, index) => (
+              <li key={index}>
+                {pathname === link.href ? (
+                  <Link
+                    className="text-lg font-semibold text-primary flex items-center gap-2 relative"
+                    href={link.href}
+                    onMouseEnter={handleInteraction}
+                    onMouseLeave={handleInteraction}
+                    onFocus={handleInteraction}>
+                    {link.name}
+                    {link?.subLinks && (
+                      <span className="transform transition-transform duration-1000">
+                        <ChevronRight
+                          className={isHovered ? "rotate-90" : "rotate-0"}
+                        />
+                      </span>
+                    )}
+                  </Link>
+                ) : (
+                  <Link
+                    className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary flex items-center gap-2"
+                    href={link.href}
+                    onMouseEnter={handleInteraction}
+                    onMouseLeave={handleInteraction}
+                    onFocus={handleInteraction}>
+                    {link.name}
+                    {link?.subLinks && (
+                      <span className="transform transition-transform duration-1000">
+                        <ChevronRight
+                          className={isHovered ? "rotate-90" : "rotate-0"}
+                        />
+                      </span>
+                    )}
+                  </Link>
+                )}
+                {link?.subLinks && isHovered && (
+                  <ul className="flex flex-col gap-4 absolute t-0 mt-2 ml-2 p-4 bg-white shadow-lg rounded-md">
+                    {link.subLinks.map((subLink, subIndex) => (
+                      <li key={subIndex}>
+                        {pathname === subLink.href ? (
+                          <Link
+                            href={subLink.href}
+                            className="text-lg font-semibold text-primary">
+                            {subLink.name}
+                          </Link>
+                        ) : (
+                          <Link
+                            href={subLink.href}
+                            className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary">
+                            {subLink.name}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
         </nav>
         <div className="flex divide-x border-r sm:border-l">
           <Button

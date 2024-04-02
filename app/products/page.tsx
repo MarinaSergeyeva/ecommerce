@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { SimplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
+import { SimplifiedProduct } from "../interface";
 
-async function getData(category: string) {
-  const query = `*[_type == 'product' && category->name == "${category}"] {
+async function getData() {
+  const query = `*[_type == 'product'] {
   _id,
     "imageUrl": images[0].asset->url,
       price,
@@ -20,17 +20,17 @@ async function getData(category: string) {
 // Opt out of caching for all data requests in the route segment
 export const dynamic = "force-dynamic";
 
-const CategoryPage = async ({ params }: { params: { category: string } }) => {
-  const data: SimplifiedProduct[] = await getData(params.category);
-
+const AllProducts = async () => {
+  const data: SimplifiedProduct[] = await getData();
   return (
-    <div className="bg-white">
+    <div>
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Our Products for {params.category}
+            All Our Products
           </h2>
         </div>
+
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {data.map((product) => (
             <Link
@@ -66,4 +66,4 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
   );
 };
 
-export default CategoryPage;
+export default AllProducts;
