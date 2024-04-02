@@ -30,7 +30,7 @@ const Newest = async () => {
           </h2>
           <Link
             className="text-primary flex items-center gap-x-1"
-            href="/all">
+            href="/products">
             See All
             <span>
               <ArrowRight />
